@@ -118,4 +118,55 @@ object VideojuegoDAO {
             false
         }
     }
+
+    fun anyadirALista(idLista: Int, idVideojuego: Int, fecha: String): Boolean {
+        val checksql = "SELECT * FROM videojuegos WHERE id = ?"
+        val insertsql = "INSERT INTO listas_videojuegos (id_lista, id_videojuego, fecha) VALUES (?, ?, ?)"
+
+        return try{
+            ConexionBD.getConnection()?.use { conn ->
+                try{
+                    conn.autoCommit = false
+
+                    conn.prepareStatement(checksql).use { checkStmt ->
+                        checkStmt.setInt(1, idVideojuego)
+                        val rs = checkStmt.executeQuery()
+
+                        if (!rs.next()){
+                            println("Error: El videojuego con ID $idVideojuego no existe")
+                            conn.rollback()
+                            return false
+                        }
+                    }
+
+                    conn.prepareStatement(insertsql).use { insertStmt ->
+                        insertStmt.setInt(1, idLista)
+                        insertStmt.setInt(2, idVideojuego)
+                        insertStmt.setString(3, fecha)
+
+                        val filasModificadas = insertStmt.executeUpdate()
+
+                        if (filasModificadas > 0){
+                            conn.commit()
+                            println("El videojuego se ha añadadido a la lista con exito")
+                            true
+                        } else {
+                            println("Error: No se ha podido integrar el videojuego en la lista")
+                            conn.rollback()
+                            false
+                        }
+                    }
+                } catch (e: Exception){
+                    println("Excepcion que ha saltado mientras le ejecución: ${e.message}")
+                    conn.rollback()
+                    false
+                } finally {
+                    conn.autoCommit = true
+                }
+            } ?: false
+        } catch (e: Exception){
+            println("Error de conexion: ${e.message}")
+            false
+        }
+    }
 }
