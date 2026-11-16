@@ -6,33 +6,28 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 object ConexionBD {
-    private const val DB_PATH = "datos/videojuegos.sqlite"
-    private val DB_FILE = File(DB_PATH)
-    private const val URL = "jdbc:sqlite:$DB_PATH"
+    private const val HOST = "localhost"
+    private const val PORT = 3306
+    private const val DATABASE = "videojuegos"
+    private const val USER = "dam"
+    private const val PASSWORD = "Qwerty2"
+
+    private val url = "jbdc:mysql//$HOST:$PORT/$DATABASE?useSSL=false&serverTimezone=Europe/Madrid"
 
 
     fun getConnection(): Connection? {
         return try {
-            DriverManager.getConnection(URL)
+            DriverManager.getConnection(url, USER, PASSWORD)
         } catch (e: SQLException) {
-            println("Error al conectar con la base de datos: ${e.message}")
+            println("Error al conectar con la base de datos MySQL: ${e.message}")
             null
         }
     }
 
     fun testConnection(): Boolean {
         return getConnection()?.use { conn ->
-            println("Conexión establecida con éxito a ${DB_FILE.absolutePath}")
+            println("Conexión establecida con éxito")
             true
         } ?: false
-    }
-
-    fun closeConnection(conn: Connection?) {
-        try {
-            conn?.close()
-            println("Conexión cerrada correctamente.")
-        } catch (e: SQLException) {
-            println("Error al cerrar la conexión: ${e.message}")
-        }
     }
 }
