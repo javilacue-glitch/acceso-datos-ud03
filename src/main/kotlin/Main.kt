@@ -56,4 +56,9 @@ fun main() {
     catalogo = VideojuegoDAO.listarVideojuegos()
     catalogo.forEach { println(it) }
 
+    println("\n--- PRUEBA DE TRANSACCIÓN (AÑADIR A LISTA) ---")
+    VideojuegoDAO.anyadirALista(3, 1, "2026-11-17")
+
+    VideojuegoDAO.anyadirALista(1, 999, "2026-11-17")
+
 }

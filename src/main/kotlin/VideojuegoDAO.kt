@@ -121,7 +121,7 @@ object VideojuegoDAO {
 
     fun anyadirALista(idLista: Int, idVideojuego: Int, fecha: String): Boolean {
         val checksql = "SELECT * FROM videojuegos WHERE id = ?"
-        val insertsql = "INSERT INTO listas_videojuegos (id_lista, id_videojuego, fecha) VALUES (?, ?, ?)"
+        val insertsql = "INSERT INTO listas_videojuegos (id_lista, id_videojuego, fecha_añadido) VALUES (?, ?, ?)"
 
         return try{
             ConexionBD.getConnection()?.use { conn ->

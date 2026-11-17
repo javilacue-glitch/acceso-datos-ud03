@@ -12,8 +12,7 @@ object ConexionBD {
     private const val USER = "dam"
     private const val PASSWORD = "Qwerty2"
 
-    private val url = "jbdc:mysql//$HOST:$PORT/$DATABASE?useSSL=false&serverTimezone=Europe/Madrid"
-
+    private val url = "jdbc:mysql://$HOST:$PORT/$DATABASE?useSSL=false&serverTimezone=Europe/Madrid"
 
     fun getConnection(): Connection? {
         return try {

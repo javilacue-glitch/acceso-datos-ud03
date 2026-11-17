@@ -13,7 +13,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation("org.xerial:sqlite-jdbc:3.43.0.0")
     implementation("org.postgresql:postgresql:42.7.1")
-    implementation("com.mysql:mysql-connector-j:8.4.0")
+    implementation("com.mysql:mysql-connector-j:8.3.0")
 }
 
 kotlin {
